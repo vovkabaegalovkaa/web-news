@@ -1,0 +1,21 @@
+body{
+    background-color: rgb(30, 79, 121);
+}
+.container{
+    background-color: aliceblue;
+    border-radius: 5px;
+}
+.news{
+    font-size: large;
+    margin-bottom: 1%;
+}
+.newsSection{
+    padding-left: 1%;
+    padding-bottom: 1%;
+}
+h1{
+    padding-left: 1%;
+}
+.showEvent{
+    border-radius: 5px;
+}
