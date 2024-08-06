@@ -1,8 +1,12 @@
 <template>
     <div class="newsSection">
-      <p class="news"> #{{id}} {{title}}</p>
-      <p class="event" v-if="isOpen">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Error nihil delectus soluta illo facilis officia!</p>
-      <button class="showEvent" @click="isOpen = !isOpen">Показать новость</button>
+        <p class="news"> #{{id}} {{title}}</p>
+        <button class="showEvent" @click="btnClicked">{{ isOpen ? "Закрыть" : "Открыть"}}</button>
+        <div v-if="isOpen">
+            <p class="event" >Lorem ipsum, dolor sit amet consectetur adipisicing elit. Error nihil delectus soluta illo facilis officia!</p>
+            <button class="readEvent" @click="readNews" v-if="wasRead == false">{{readStatus}}</button>
+            <button class="cancelReadEvent" @click="cancelReadNews" v-if="wasRead == true">{{readStatus}}</button>
+        </div>
     </div>
 </template>
 
@@ -22,15 +26,66 @@ export default{
         //     required: false,//если reqired false, то мы можем установить значение по умолчанию  при помощи default
         //     default: false,
         //     //так же существует функция validator, принимающая значение и возвращающая fasle или true, если false-выдаст ошибку
-        //     validatro(value){
+        //     validator(value){
         //         return value === true || value === false//проверка на boolean, просто для примера(она уже есть в поле type)
         //     }
         // }
+        wasRead: Boolean,
+    },
+    //emits:["open-news"],//больше служит для других разрабов, чтобы они понимали какие эмиты существуют(просто вписываем названия)
+    emits: {
+        //для валидации сообытий
+        'open-news'(message){
+            if(message){
+                return true;
+            }
+            else{
+                console.log("No data im emit 'open-news'");
+            }
+            //eсли в эмите не будет передано никаких данных, выдаст лог и так же предупрждение о провале валидации от Vue
+        },
+        //'read-news': null,//если валидатор не нужен
+        'read-news'(id){
+            if(id>0){
+                return true;
+            }
+            else{
+                console.warn("Id is incorrect")
+            }
+        },
+        'cancel-read-news'(id){
+            if(id>0){
+                return true;
+            }
+            else{
+                console.warn("Id is incorrect")
+            }
+        }
     },
     data(){
         return {
             //event: this.title – мы имеем доступ к title во всем объекте 
-            isOpen: false
+            isOpen: false,
+            readStatus: "Читать новость",
+        }
+    },
+    methods:{
+        btnClicked(){
+            this.isOpen = !this.isOpen;
+            if(this.isOpen){
+                this.$emit("open-news", "vova krut");
+                //метод для сообщения о чем-то родительскому компоненту, 1-ый параметр название события для обработки, потом бесконечность
+                //параметров с данными
+            }
+        },
+        readNews(){
+            this.$emit('read-news', this.id);
+            this.isOpen = !this.isOpen;
+            this.readStatus = "Отменить"
+        },
+        cancelReadNews(){
+            this.$emit('cancel-read-news', this.id);
+            this.readStatus = "Читать новость";
         }
     }
 }
