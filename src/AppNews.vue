@@ -1,16 +1,19 @@
 <template>
     <div class="newsSection">
         <p class="news"> #{{id}} {{title}}</p>
-        <button class="showEvent" @click="btnClicked">{{ isOpen ? "Закрыть" : "Открыть"}}</button>
+        <app-button :btnClass="''" :text="isOpen ? 'Закрыть' : 'Открыть'" @action="btnClicked"></app-button>
         <div v-if="isOpen">
             <p class="event" >Lorem ipsum, dolor sit amet consectetur adipisicing elit. Error nihil delectus soluta illo facilis officia!</p>
-            <button class="readEvent" @click="readNews" v-if="wasRead == false">{{readStatus}}</button>
-            <button class="cancelReadEvent" @click="cancelReadNews" v-if="wasRead == true">{{readStatus}}</button>
+            <app-button :btnClass="'readEvent'" :text="readStatus" @action="readNews" v-if="wasRead == false"></app-button>
+            <app-button :btnClass="'cancelReadEvent'" :text="readStatus" @action="cancelReadNews" v-if="wasRead == true"></app-button>
+            <app-news-list></app-news-list>
         </div>
     </div>
 </template>
 
 <script>
+import AppButton from './AppButton.vue';
+import AppNewsList from './AppNewsList.vue';
 export default{
     //props: ["title"],
     //props служит для принятия свойств переданных в параметрах, информация передается через название параметра
@@ -30,7 +33,10 @@ export default{
         //         return value === true || value === false//проверка на boolean, просто для примера(она уже есть в поле type)
         //     }
         // }
-        wasRead: Boolean,
+        wasRead:{
+            type: Boolean,
+            required: true,
+        },
     },
     //emits:["open-news"],//больше служит для других разрабов, чтобы они понимали какие эмиты существуют(просто вписываем названия)
     emits: {
@@ -87,6 +93,10 @@ export default{
             this.$emit('cancel-read-news', this.id);
             this.readStatus = "Читать новость";
         }
+    },
+    components: {
+        'app-button': AppButton,
+        'app-news-list': AppNewsList,
     }
 }
 </script>

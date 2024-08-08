@@ -58,6 +58,16 @@ export default {
       this.news[id-1].wasRead = false;
       this.readRate--;
     }
+  },
+  //provide служит для передачи данных для всех потомков этого компонента(и детей и внуков и правнуков)
+  // provide: {
+  //   newsList: "ffwefwefwe",
+  // } В ТАКОМ СЛУЧАЕ НЕЛЬЗЯ ПЕРЕДАТЬ КАКОЙ-ТО ОБЪЕКТ
+  provide(){
+    return {
+      title: "Список всех новостей",
+      newsList: this.news,//вот так все нормик работает
+    }
   }
 }
 </script>

@@ -16,17 +16,15 @@ body{
 h1{
     padding-left: 1%;
 }
-.showEvent{
+.btn{
     border-radius: 5px;
 }
 .readEvent{
-    border-radius: 5px;
     background-color: aquamarine;
 }
 .info{
     padding-left: 1%;
 }
 .cancelReadEvent{
-    border-radius: 5px;
     background-color: rgb(255, 159, 127);
 }
